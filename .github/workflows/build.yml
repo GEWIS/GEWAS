@@ -6,10 +6,6 @@ on:
     pull_request:
         branches: [ "master" ]
 
-permissions:
-    contents: read
-    packages: write
-
 jobs:
     build-and-lint:
         uses: GEWIS/actions/.github/workflows/lint-and-build-yarn.yml@v1
