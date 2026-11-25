@@ -1,7 +1,9 @@
 import { Server } from '@hapi/hapi';
+import Inert from '@hapi/inert';
 import MailCowClient from 'ts-mailcow-api';
 import log4js from 'log4js';
 import { registerEmailAliasRoute } from './routes/aliases';
+import { registerFrontendRoute } from './routes/frontend';
 import { createAliasDictionary } from './services/alias-service';
 
 log4js.configure({
@@ -31,7 +33,10 @@ export const init = async () => {
     },
   });
 
+  await server.register(Inert);
+
   registerEmailAliasRoute(server);
+  registerFrontendRoute(server);
 
   try {
     await createAliasDictionary();

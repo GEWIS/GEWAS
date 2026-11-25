@@ -1,16 +1,17 @@
 # --- Builder Stage ---
+# NOTE: The build context is the repository root (see .github/workflows/release.yml).
 FROM node:22-alpine AS builder
 
 WORKDIR /usr/src/app
 
 # Install dependencies using Yarn
-COPY package.json yarn.lock ./
+COPY backend/package.json backend/yarn.lock ./
 RUN yarn install --frozen-lockfile
 
 # Copy configs and source
-COPY webpack.config.ts tsconfig.json ./
-COPY src ./src
-COPY main.ts ./
+COPY backend/webpack.config.ts backend/tsconfig.json ./
+COPY backend/src ./src
+COPY backend/main.ts ./
 
 # Build the app
 RUN yarn build
@@ -23,11 +24,14 @@ ENV NODE_ENV=production
 WORKDIR /usr/src/app
 
 # Install only production dependencies
-COPY package.json yarn.lock ./
+COPY backend/package.json backend/yarn.lock ./
 RUN yarn install --frozen-lockfile --production
 
 # Copy built app
 COPY --from=builder /usr/src/app/dist ./
+
+# Copy static frontend, served by the backend at /
+COPY frontend/alias-lookup ./static
 
 # Set permissions and run as non-root user
 RUN chown -R node:node .

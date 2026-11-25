@@ -4,4 +4,4 @@ The backend is made in hapi.js and runs in docker container on the container hos
 
 ## Extras
 ### Aliases
-[Website](https://cbc.gewis.nl/aliases/) that allows you to check what aliases you have.
+[Website](https://aliases.gewis.nl/) that allows you to check what aliases you have.

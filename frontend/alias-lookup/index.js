@@ -16,7 +16,7 @@ function lookup (email) {
   }
 
   // Make request
-  xmlHttp.open('GET', `https://mail-api.gewis.nl/api/v1/email/${email}/aliases`, true)
+  xmlHttp.open('GET', `/api/v1/email/${encodeURIComponent(email)}/aliases`, true)
   xmlHttp.send(null)
 
   return false
